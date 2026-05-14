@@ -1,0 +1,161 @@
+@import "tailwindcss";
+
+@variant dark (&:where(.dark, .dark *));
+
+@theme {
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Helvetica Neue", "Inter", ui-sans-serif, system-ui, sans-serif;
+  --color-chaos-orange: #f27d26;
+  --color-chaos-orange-dark: #b34717;
+  --color-coral-50: #fff1f2;
+  --color-coral-100: #ffe4e6;
+  --color-coral-400: #fb7185;
+  --color-coral-500: #f43f5e;
+  --color-slate-400: #94a3b8;
+  --color-slate-500: #64748b;
+  --color-slate-800: #1e293b;
+  
+  /* Dark Mode Palette */
+  --color-dark-bg: #0f172a;
+  --color-dark-surface: #1e293b;
+  --color-dark-glass: rgba(30, 41, 59, 0.6);
+  --color-dark-border: rgba(255, 255, 255, 0.1);
+
+  --spacing-safe-top: env(safe-area-inset-top, 0px);
+  --spacing-safe-bottom: env(safe-area-inset-bottom, 0px);
+  --spacing-safe-left: env(safe-area-inset-left, 0px);
+  --spacing-safe-right: env(safe-area-inset-right, 0px);
+}
+
+@layer base {
+  body {
+    @apply text-slate-900 antialiased overflow-x-hidden p-0 m-0 transition-colors duration-700;
+    background: radial-gradient(circle at 50% 50%, #fffbf0 0%, #ede9fe 100%);
+  }
+
+  body.dark {
+    @apply text-slate-100;
+    background: radial-gradient(circle at 50% 50%, #1e1e3f 0%, #0f172a 100%);
+  }
+}
+
+@layer components {
+  .premium-blur {
+    backdrop-filter: blur(16px);
+    background: rgba(255, 255, 255, 0.5);
+  }
+
+  .dark .premium-blur {
+    background: rgba(15, 23, 42, 0.7);
+  }
+  
+  .glass-card {
+    @apply bg-white/70 backdrop-blur-xl border border-white/50 shadow-[0_8px_30px_rgb(0,0,0,0.04)] transition-all;
+  }
+
+  .dark .glass-card {
+    @apply bg-slate-800/60 border-white/10 shadow-none;
+  }
+
+  .glass-card-heavy {
+    @apply bg-white/90 backdrop-blur-3xl border border-white/80 shadow-[0_32px_64px_-16px_rgba(0,0,0,0.1)];
+  }
+
+  .dark .glass-card-heavy {
+    @apply bg-slate-900/90 border-white/10 shadow-black/60;
+  }
+
+  .vertical-bar-container {
+    @apply w-5 h-72 bg-slate-200/40 backdrop-blur-md rounded-full overflow-hidden p-1 border-2 border-slate-950 shadow-[0_0_20px_rgba(0,0,0,0.1)];
+  }
+
+  .dark .vertical-bar-container {
+    @apply bg-slate-900/60 border-black shadow-[0_0_30px_rgba(0,0,0,0.5)];
+  }
+
+  .vertical-bar-fill {
+    @apply w-full bg-gradient-to-t from-orange-600 via-chaos-orange to-amber-400 rounded-full shadow-[0_0_25px_rgba(242,125,38,0.7)];
+    position: relative;
+  }
+
+  .vertical-bar-fill::after {
+    content: "";
+    @apply absolute inset-0 opacity-40;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+    animation: shimmer 2s infinite linear;
+  }
+
+  @keyframes shimmer {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(100%); }
+  }
+
+  .cinematic-bg {
+    background: radial-gradient(circle at 50% 50%, #1a1a2e 0%, #16213e 100%);
+  }
+
+  .cinematic-bg-light {
+    background: radial-gradient(circle at 50% 50%, #fffcf5 0%, #fef3c7 100%);
+  }
+
+  /* Machine Light Mode Classes */
+  .machine-body-light {
+    @apply bg-slate-300 border-slate-400 shadow-[inset_0_-10px_0_rgba(0,0,0,0.05),0_20px_50px_rgba(0,0,0,0.1)];
+  }
+  
+  .machine-chamber-light {
+    @apply bg-slate-200/50 border-slate-400/50;
+  }
+}
+
+/* Accessibility / High Contrast */
+.high-contrast {
+  --color-slate-900: #000000;
+  --color-slate-800: #000000;
+  --color-slate-700: #000000;
+  --color-slate-600: #1a1a1a;
+  --color-slate-500: #262626;
+  --color-slate-400: #333333;
+}
+
+.high-contrast body {
+  @apply text-black font-extrabold;
+}
+
+.high-contrast .glass-card, 
+.high-contrast .glass-card-heavy {
+  @apply border-4 border-slate-950 bg-white shadow-none text-black;
+}
+
+.high-contrast.dark .glass-card,
+.high-contrast.dark .glass-card-heavy {
+  @apply border-4 border-white bg-black shadow-none text-white;
+}
+
+.high-contrast [class*="text-slate-"] {
+  color: black !important;
+}
+
+.high-contrast.dark [class*="text-slate-"] {
+  color: white !important;
+}
+
+/* Difficulty Themes */
+.diff-easy { @apply text-emerald-500 bg-emerald-50 border-emerald-100; }
+.dark .diff-easy { @apply text-emerald-400 bg-emerald-950/30 border-emerald-900/30; }
+
+.diff-medium { @apply text-amber-500 bg-amber-50 border-amber-100; }
+.dark .diff-medium { @apply text-amber-400 bg-amber-950/30 border-amber-900/30; }
+
+.diff-hard { @apply text-rose-500 bg-rose-50 border-rose-100; }
+.dark .diff-hard { @apply text-rose-400 bg-rose-950/30 border-rose-900/30; }
+
+/* 3D Button Shadows from design */
+.btn-3d {
+  box-shadow: 0 12px 0 var(--color-chaos-orange-dark), 0 20px 30px rgba(242, 125, 38, 0.4);
+}
+
+.btn-3d:active {
+  transform: translateY(8px);
+  box-shadow: 0 4px 0 var(--color-chaos-orange-dark);
+}
